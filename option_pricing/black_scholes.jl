@@ -1,6 +1,6 @@
 using Random, Distributions
 
-function black_scholes_price(S, K, T, σ, rf, option_type="call")
+function black_scholes_price(S, K, T, σ, rf; option_type="call")
     d1 = (log(S/K) + (rf + σ^2/2)*T) / (σ * sqrt(T))
     d2 = d1 - σ*sqrt(T)
     N = Normal()
@@ -11,6 +11,6 @@ function black_scholes_price(S, K, T, σ, rf, option_type="call")
     end
 end
 
-call_price = black_scholes_price(300, 250, 2, 0.15, 0.03, "call")
-put_price  = black_scholes_price(300, 250, 2, 0.15, 0.03, "put")
-println(call_price, " ", put_price, " ", call_price - put_price)
+call_price = black_scholes_price(300, 250, 2, 0.15, 0.03; option_type = "call")
+put_price  = black_scholes_price(300, 250, 2, 0.15, 0.03; option_type = "put")
+println(call_price, " ", put_price, " ", abs(call_price - put_price - (300 - 250 * exp(-0.06))) < 1e-6)
