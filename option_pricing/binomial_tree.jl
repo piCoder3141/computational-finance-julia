@@ -17,7 +17,7 @@ function option_payoff(stock_prices, strike_price; option_type="call")
     end
 end
 
-function binomial_tree_price(S, K, T, σ, rf; option_type="call", δ_t=0.01)
+function binomial_tree_price(S, K, T, σ, rf; option_type="call", δ_t=0.001)
     n_t = convert(Int64, T / δ_t)
     u = exp(σ * sqrt(δ_t))
     d = exp(-σ * sqrt(δ_t))
@@ -26,9 +26,9 @@ function binomial_tree_price(S, K, T, σ, rf; option_type="call", δ_t=0.01)
 
     stock_prices = S * broadcast(^, u, [ (i > j) ? NaN : (j-i) - (i-1) for i=1:(n_t+1), j=1:(n_t+1) ])
 
-    option_prices = stock_prices
+    option_prices = copy(stock_prices)
     option_prices[:, n_t+1] = option_payoff(option_prices[:, n_t+1], K; option_type)
-    for t = n_t:1:-1
+    for t = n_t:-1:1
         option_prices[1:t, t] = exp(-rf * δ_t) * (p_u * option_prices[1:t, t+1] + p_d * option_prices[2:t+1, t+1])
     end
 
