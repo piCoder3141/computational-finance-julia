@@ -1,4 +1,4 @@
 # computational-finance-julia
 Learning Julia via implementing computational finance routines.<br>
-Log: <br>
-- 3rd Sept, 2023: Created Black-Scholes Call option price calculator.
+Projects <br>
+- Option pricing via Black Scholes Equation, Binomial Tree method, and Numerical methods.
