@@ -1,5 +1,5 @@
 # Solve the Black-Scholes PDE using numerical schemes.
-using LinearAlgebra
+import LinearAlgebra
 
 function option_payoff(S_array, K; option_type="call")
     if option_type == "call"
@@ -42,7 +42,7 @@ function implicit_scheme(K, T, σ, rf; option_type="call", n_time=50, n_space=50
     a_j = (0.5 * rf * dt .* s_idx) - (0.5 * dt * (σ^2) .* (s_idx .^ 2)) 
     b_j = (1 + dt * rf) .+ (dt * (σ^2) .* (s_idx .^ 2))
     c_j = (-0.5 * rf * dt .* s_idx) - (0.5 * dt * (σ^2) .* (s_idx .^ 2)) 
-    D = Tridiagonal(a_j[3: n_space], b_j[2:n_space], c_j[2:n_space-1])
+    D = LinearAlgebra.Tridiagonal(a_j[3: n_space], b_j[2:n_space], c_j[2:n_space-1])
 
     F = zeros((n_time+1, n_space+1))
     F[n_time+1, :] = option_payoff(s_j, K; option_type=option_type)

@@ -1,13 +1,13 @@
-using Random, Distributions
+import Distributions
 
 function black_scholes_price(S, K, T, σ, rf; option_type="call")
     d1 = (log(S/K) + (rf + σ^2/2)*T) / (σ * sqrt(T))
     d2 = d1 - σ*sqrt(T)
-    N = Normal()
+    N = Distributions.Normal()
     if option_type == "call"
-        (cdf.(N, d1) * S) - (cdf.(N, d2) * K * exp(-rf * T))
+        (Distributions.cdf.(N, d1) * S) - (Distributions.cdf.(N, d2) * K * exp(-rf * T))
     else
-        (cdf.(N, -d2) * K * exp(-rf * T)) - (cdf.(N, -d1) * S)
+        (Distributions.cdf.(N, -d2) * K * exp(-rf * T)) - (Distributions.cdf.(N, -d1) * S)
     end
 end
 
